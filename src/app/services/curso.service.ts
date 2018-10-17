@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from "angularfire2/firestore";
 import { CursoInterface } from './../models/cursointerfase';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-@Injectable({
+import { map } from 'rxjs/operators';@Injectable({
   providedIn: 'root'
 })
 export class CursoService {
@@ -22,12 +21,48 @@ export class CursoService {
     //de la tabla 'cursos' que esta en firebase
     //acceder a los datos
     //con valueChanges
-      this.cursos = afs.collection('cursos').valueChanges();
+     // this.cursos = afs.collection('cursos').valueChanges();
+//primero hacemos la conexion
+     this.cursosCollection = afs.collection<CursoInterface>('cursos');
+ //lo ajustamos a un arreglso
+     this.cursos = this.cursosCollection.snapshotChanges().pipe
+     (
+       //no tengo ni idea pero asi di la documentacon
+       map(actions => actions.map(a => {
+         //lo unico que entendi es que para recuperar los datos
+         //los transformamos todos los datos
+        const data = a.payload.doc.data() as CursoInterface;
+        //importante saber que nunca te va dar el dato de id
+        //entonces tenemos que hacerlo
+        const id = a.payload.doc.id;
+        //retornamos todos
+        //id y data
+        //data antes debe de tener ... para que se pueda ver
+        return { id, ...data };
+       }))
+     );
   }
 
   getCursos() {
     //visualisamos lo que hay en la base de datos general
     return this.cursos;
+  }
+  //poner la interface para que pueda estar bien con la base de
+  //datos
+  addCurso(curso: CursoInterface){
+    console.log('NEW COURSE');
+
+    //ya que tenemos nuestros datosd
+    //pues ya solo de guarda solo
+    this.cursosCollection.add(curso);
+  }
+  deleteCurso()
+  {
+    console.log('delete course')
+  }
+  updateCurso()
+  {
+    console.log('Update course');
   }
 
 }
