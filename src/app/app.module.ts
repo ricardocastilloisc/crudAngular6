@@ -26,7 +26,6 @@ import { AddCursoComponent } from './components/add-curso/add-curso.component';
   ],
   imports: [
     BrowserModule,
-    //angular6-crud es el nombre de la base de datos
     AngularFireModule.initializeApp(environment.firebaseConfig, 'angular6-crud'),
     AngularFirestoreModule,
     FormsModule
