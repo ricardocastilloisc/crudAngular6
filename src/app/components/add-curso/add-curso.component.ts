@@ -26,10 +26,15 @@ curso: CursoInterface = {
   ngOnInit() {
   }
   onGuardarCurso(myForm: NgForm){
-    const fechaNow = Date.now();
-    this.curso.fecha = fechaNow;
-    this.cursoService.addCurso(this.curso);
 
-
+    if ( myForm.valid === true) {
+      const fechaNow = Date.now();
+      this.curso.fecha = fechaNow;
+      this.cursoService.addCurso(this.curso);
+      myForm.resetForm();
+    } else
+    {
+      console.log("algo va mal");
+    }
   }
 }

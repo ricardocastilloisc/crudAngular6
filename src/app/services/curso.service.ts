@@ -23,7 +23,8 @@ export class CursoService {
     //con valueChanges
      // this.cursos = afs.collection('cursos').valueChanges();
 //primero hacemos la conexion
-     this.cursosCollection = afs.collection<CursoInterface>('cursos');
+     this.cursosCollection = afs.collection<CursoInterface>('cursos',
+     ref => ref.orderBy('fecha', 'desc'));
  //lo ajustamos a un arreglso
      this.cursos = this.cursosCollection.snapshotChanges().pipe
      (
