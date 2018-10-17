@@ -56,13 +56,19 @@ export class CursoService {
     //pues ya solo de guarda solo
     this.cursosCollection.add(curso);
   }
-  deleteCurso()
-  {
-    console.log('delete course')
+  deleteCurso(curso: CursoInterface) {
+   // console.log('delete course')
+   this.cursoDoc = this.afs.doc(`cursos/${curso.id}`);
+   this.cursoDoc.delete();
+
   }
-  updateCurso()
-  {
-    console.log('Update course');
+  updateCurso(curso: CursoInterface) {
+
+    //esto es para  actualizar y acceder  a la base de datos
+    //tener en cuenta que (base de datos/id del cual modificaremos con el parametro)
+
+    this.cursoDoc = this.afs.doc(`cursos/${curso.id}`);
+    this.cursoDoc.update(curso);
   }
 
 }
